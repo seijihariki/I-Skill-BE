@@ -3,7 +3,10 @@
     "silex/silex": "^1.3",
     "monolog/monolog": "^1.4",
     "twig/twig": "^1.8",
-    "symfony/twig-bridge": "^2"
+    "symfony/twig-bridge": "^2",
+    "firebase/php-jwt": "dev-master",
+    "zendframework/zend-config": "~2.3",
+    "zendframework/zend-http": "~2.3"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"
