@@ -15,33 +15,38 @@ if ($dbconn == False)
     exit("Failed to connect to DB.");
 }
 
+$email    = $_POST["email"];
+$fullname = $_POST["name"];
 $username = $_POST["user"];
 $password = $_POST["pass"];
 
 // Username sanity checking
 
-$saltqr  = "SELECT pass, salt FROM users WHERE user = \"".$username."\" OR email = \"".$username."\";";
-$saltrec = pg_query($dbconn, $saltqr);
+$userqr  = "SELECT user, email FROM users WHERE user = ".$username." OR email = ".$email.";";
 
-if ($saltrec)
+$userrec = pg_query($dbconn, $userqr);
+
+if ($userrec)
 {
-    if (pg_num_rows($saltrec) == 1)
+    if (pg_num_rows($userrec) == 1)
     {
         $row = pg_fetch_row($saltrec);
-        $expe = $row[0];
-        $salt = $row[1];
-        $hash = hash('sha256', $password.$salt);
-        if ($expe == $hash)
+        $user = $row[0];
+        $mail = $row[1];
+        if ($user == $username)
         {
-            // Create session and jwt token
+            echo "{status: \"exists\", detail: \"Username already exists\"}";
+        } else {
+            echo "{status: \"exists\", detail: \"Email is already being used\"}";
         }
     } else {
         echo "{status: \"error\", detail: \"More than one entry found\"}";
         exit("More than one entry found");
     }
 } else {
-    echo "{status: \"wrong\", detail: \"Wrong username or password\"}";
-    exit("Wrong username or password");
+    // Insert data into DB
+    echo "{status: \"success\"}";
+    exit;
 }
 
 exit("This shouldn't have been reached...");
