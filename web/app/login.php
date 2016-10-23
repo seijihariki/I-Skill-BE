@@ -1,5 +1,5 @@
 <?php
-require_once('vendor/autoload.php');
+require_once('../../vendor/autoload.php');
 
 $dbhost = 'ec2-54-221-253-87.compute-1.amazonaws.comOC';
 $dbport = 5432;
