@@ -7,6 +7,16 @@ $dbname = 'db2bq0vfsn68vn';
 $dbuser = 'odfehicdceyspg';
 $dbpass = 'GA70wAn9eSONOLUVk9Iihs04U5';
 
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 $dbconn = pg_connect("host=".$dbhost." port=".$dbport." dbname=".$dbname." user=".$dbuser." password=".$dbpass);
 
 if ($dbconn == False)
@@ -22,7 +32,7 @@ $password = $_POST["pass"];
 
 // Username sanity checking
 
-$userqr  = "SELECT user, email FROM users WHERE user = ".$username." OR email = ".$email.";";
+$userqr  = "SELECT user, email FROM users WHERE username = ".$username." OR email = ".$email.";";
 
 $userrec = pg_query($dbconn, $userqr);
 
@@ -46,8 +56,16 @@ if ($userrec)
         exit;
     }
 } else {
-    // Insert data into DB
-    echo "{status: \"success\"}";
+    $salt = generateRandomString();
+    $passhash = hash('sha256', $password.$salt);
+    $userins = "INSERT INTO users VALUES (\"".$username."\", \"".$fullname."\", \"".$email."\", \"".$passhash."\", \"".$salt.");";
+    $res = pg_query($dbconn, $userins);
+    if ($res == false)
+    {
+        echo "{status: \"error\", detail: \"Failed to register user into DB.\"}";
+    } else {
+        echo "{status: \"success\"}";
+    }
     exit;
 }
 
