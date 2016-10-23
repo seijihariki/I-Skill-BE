@@ -9,10 +9,4 @@ $dppass = ' GA70wAn9eSONOLUVk9Iihs04U5';
 
 $dbconn = pg_connect("host=".$dbhost." port=".$dbport." dbname=".$dbname." user=".$dbuser." password=".$dbpass);
 
-if ($dbconn == False)
-{
-    echo "{status: \"error\", detail: \"Failed to connect to DB.\"}";
-    exit("Failed to connect to DB.");
-}
-
 ?>
