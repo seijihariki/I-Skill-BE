@@ -32,7 +32,7 @@ $password = $_POST["pass"];
 
 // Username sanity checking
 
-$userqr  = "SELECT user, email FROM users WHERE username = ".$username." OR email = ".$email.";";
+$userqr  = "SELECT user, email FROM users WHERE username = \"".$username."\" OR email = \"".$email."\";";
 
 $userrec = pg_query($dbconn, $userqr);
 
@@ -58,8 +58,9 @@ if ($userrec)
 } else {
     $salt = generateRandomString();
     $passhash = hash('sha256', $password.$salt);
-    $userins = "INSERT INTO users VALUES (\"".$username."\", \"".$fullname."\", \"".$email."\", \"".$passhash."\", \"".$salt.");";
+    $userins = "INSERT INTO users (username, name, email, pass, salt) VALUES (\"".$username."\", \"".$fullname."\", \"".$email."\", \"".$passhash."\", \"".$salt."\");";
     $res = pg_query($dbconn, $userins);
+
     if ($res == false)
     {
         echo "{status: \"error\", detail: \"Failed to register user into DB.\"}";

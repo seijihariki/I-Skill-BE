@@ -20,7 +20,7 @@ $password = $_POST["pass"];
 
 // Username sanity checking
 
-$saltqr  = "SELECT pass, salt FROM users WHERE user = \"".$username."\" OR email = \"".$username."\";";
+$saltqr  = "SELECT pass, salt FROM users WHERE username = \"".$username."\" OR email = \"".$username."\";";
 $saltrec = pg_query($dbconn, $saltqr);
 
 if ($saltrec)
