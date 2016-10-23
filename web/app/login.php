@@ -12,7 +12,7 @@ $dbconn = pg_connect("host=".$dbhost." port=".$dbport." dbname=".$dbname." user=
 if ($dbconn == False)
 {
     echo "{status: \"error\", detail: \"Failed to connect to DB.\"}";
-    exit("Failed to connect to DB.");
+    exit;
 }
 
 $username = $_POST["user"];
@@ -37,11 +37,11 @@ if ($saltrec)
         }
     } else {
         echo "{status: \"error\", detail: \"More than one entry found\"}";
-        exit("More than one entry found");
+        exit;
     }
 } else {
     echo "{status: \"wrong\", detail: \"Wrong username or password\"}";
-    exit("Wrong username or password");
+    exit;
 }
 
 exit("This shouldn't have been reached...");

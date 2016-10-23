@@ -12,7 +12,7 @@ $dbconn = pg_connect("host=".$dbhost." port=".$dbport." dbname=".$dbname." user=
 if ($dbconn == False)
 {
     echo "{status: \"error\", detail: \"Failed to connect to DB.\"}";
-    exit("Failed to connect to DB.");
+    exit;
 }
 
 $email    = $_POST["email"];
@@ -36,12 +36,14 @@ if ($userrec)
         if ($user == $username)
         {
             echo "{status: \"exists\", detail: \"Username already exists\"}";
+            exit;
         } else {
             echo "{status: \"exists\", detail: \"Email is already being used\"}";
+            exit;
         }
     } else {
         echo "{status: \"error\", detail: \"More than one entry found\"}";
-        exit("More than one entry found");
+        exit;
     }
 } else {
     // Insert data into DB
