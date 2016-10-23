@@ -38,7 +38,8 @@ $userrec = pg_query($dbconn, $userqr);
 
 if ($userrec)
 {
-    if (pg_num_rows($userrec) == 1)
+    $rcnt = pg_num_rows($userrec);
+    if ($rcnt == 1)
     {
         $row = pg_fetch_row($saltrec);
         $user = $row[0];
@@ -46,28 +47,31 @@ if ($userrec)
         if ($user == $username)
         {
             echo "{status: \"exists\", detail: \"Username already exists\"}";
-            exit;
         } else {
             echo "{status: \"exists\", detail: \"Email is already being used\"}";
-            exit;
         }
-    } else {
-        echo "{status: \"error\", detail: \"More than one entry found\"}";
-        exit;
     }
-} else {
-    $salt = generateRandomString();
-    $passhash = hash('sha256', $password.$salt);
-    $userins = "INSERT INTO users (username, name, email, pass, salt) VALUES ('".$username."', '".$fullname."', '".$email."', '".$passhash."', '".$salt."');";
-    $res = pg_query($dbconn, $userins);
-
-    if ($res == false)
+    if ($rcnt > 1)
     {
-        echo "{status: \"error\", detail: \"Failed to register user into DB.\"}";
-    } else {
-        echo "{status: \"success\"}";
+        echo "{status: \"error\", detail: \"More than one entry found\"}";
+    }
+    if ($rcnt == 0)
+    {
+        $salt = generateRandomString();
+        $passhash = hash('sha256', $password.$salt);
+        $userins = "INSERT INTO users (username, name, email, pass, salt) VALUES ('".$username."', '".$fullname."', '".$email."', '".$passhash."', '".$salt."');";
+        $res = pg_query($dbconn, $userins);
+
+        if ($res == false)
+        {
+            echo "{status: \"error\", detail: \"Failed to register user into DB.\"}";
+        } else {
+            echo "{status: \"success\"}";
+        }
     }
     exit;
+} else {
+    echo "{status: \"error\", detail: \"Query for user returned error.\"}";
 }
 
 exit("This shouldn't have been reached...");
