@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d1a82a9fd05cfc309bc2936661c0424d",
-    "content-hash": "d6a1537b4ad39cb20da64183216c0b9f",
+    "hash": "c3f0f241cc2cab55aadfe2fd53ea0af0",
+    "content-hash": "5f26c8f3c8466536236f4dc582aef6c3",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -36,16 +36,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "dev-master",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "3aa3d978973f080746b2f2f75b10d3f38cbb0557"
+                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/3aa3d978973f080746b2f2f75b10d3f38cbb0557",
-                "reference": "3aa3d978973f080746b2f2f75b10d3f38cbb0557",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
+                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
                 "shasum": ""
             },
             "require": {
@@ -75,7 +75,7 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2016-08-31 23:16:29"
+            "time": "2016-07-18 04:51:16"
         },
         {
             "name": "monolog/monolog",
@@ -1259,9 +1259,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "firebase/php-jwt": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
