@@ -37,6 +37,7 @@ if ($saltrec)
         $hash = hash('sha256', $password.$salt);
         if ($expe == $hash)
         {
+            echo "ALLOWED";
             $tokenID = base64_encode(mcrypt_create_iv(32));
             $issueTime = time();
             $notBefore = $issueTime;
@@ -62,6 +63,7 @@ if ($saltrec)
                 'HS512'
             );
             echo "{status: \"OK\", jwt: \"".$token."\"}";
+            exit;
         }
     } else {
         echo "{status: \"error\", detail: \"More than one entry found\"}";
