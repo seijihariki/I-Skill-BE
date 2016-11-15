@@ -56,6 +56,7 @@ if ($saltrec)
                 ];
             echo "WOW";
             $JWTKey = base64_decode($config['jwtkey']);
+            echo "DECODED ".$config['jwtkey'];
             $token = JWT::encode(
                 $data,
                 $JWTKey,
