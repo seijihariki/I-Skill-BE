@@ -1,6 +1,6 @@
 <?php
 return array(
-    'dbhost' => 'ec2-54-221-253-87.compute01.amazonaws.com',
+    'dbhost' => 'ec2-54-221-253-87.compute-1.amazonaws.com',
     'dbport' => '5432',
     'dbname' => 'db2bq0vfsn68vn',
     'dbuser' => 'odfehicdceyspg',
