@@ -37,12 +37,14 @@ if ($saltrec)
         $hash = hash('sha256', $password.$salt);
         if ($expe == $hash)
         {
+            echo "ALLOW";
             $tokenID = base64_encode(mcrypt_create_iv(32));
             $issueTime = time();
             $notBefore = $issueTime;
             $expire = $issueTime + $config['extime'];
             $issuer = $config['issuer'];
             // Create session and jwt token
+            echo "YAY";
             $data = [
                 'iat' => $issueTime,
                 'jti' => $tokenID,
