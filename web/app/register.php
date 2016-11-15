@@ -19,7 +19,9 @@ function generateRandomString($length = 10) {
     return $randomString;
 }
 
-$dbconn = pg_connect("host=".$dbhost." port=".$dbport." dbname=".$dbname." user=".$dbuser." password=".$dbpass);
+$connstr = "host=".$dbhost." port=".$dbport." dbname=".$dbname." user=".$dbuser." password=".$dbpass;
+echo $connstr;
+$dbconn = pg_connect();
 
 if ($dbconn == False)
 {
