@@ -1,7 +1,7 @@
 <?php
 require_once('../../vendor/autoload.php');
 
-$config = include('../../config.php');
+$config = include('config.php');
 
 $dbhost = $config['dbhost'];
 $dbport = $config['dbport'];
