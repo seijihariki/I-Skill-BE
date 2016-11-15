@@ -43,6 +43,7 @@ if ($saltrec)
             $issuer = $config['issuer'];
 
             // Create session and jwt token
+            echo "KKK";
             $JWTKey = base64_decode($config['jwtkey']);
             $token = $jwtconfig->createBuilder()
                 ->issuedBy($issuer)
