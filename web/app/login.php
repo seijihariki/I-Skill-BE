@@ -37,7 +37,6 @@ if ($saltrec)
         $hash = hash('sha256', $password.$salt);
         if ($expe == $hash)
         {
-            echo "ALLOWED";
             $tokenID = base64_encode(mcrypt_create_iv(32));
             $issueTime = time();
             $notBefore = $issueTime;
@@ -55,7 +54,7 @@ if ($saltrec)
                     'username' => $row[1]
                     ]
                 ];
-
+            echo "WOW";
             $JWTKey = base64_decode($config['jwtkey']);
             $token = JWT::encode(
                 $data,
