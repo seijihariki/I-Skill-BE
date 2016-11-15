@@ -1,15 +1,16 @@
 <?php
 require_once('../../vendor/autoload.php');
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 $config = include('config.php');
+$signer = new Sha256();
 
 $dbhost = $config['dbhost'];
 $dbport = $config['dbport'];
 $dbname = $config['dbname'];
 $dbuser = $config['dbuser'];
 $dbpass = $config['dbpass'];
-
-$jwtconfig = new Configuration();
 
 $dbconn = pg_connect("host=".$dbhost." port=".$dbport." dbname=".$dbname." user=".$dbuser." password=".$dbpass);
 
@@ -43,19 +44,18 @@ if ($saltrec)
             $issuer = $config['issuer'];
 
             // Create session and jwt token
-            echo "KKK";
             $JWTKey = base64_decode($config['jwtkey']);
-            $token = $jwtconfig->createBuilder()
-                ->issuedBy($issuer)
-                ->canOnlyBeUsedBy($issuer)
-                ->identifiedBy($tokenID)
-                ->issuedAt($issueTime)
-                ->canOnlyBeUsedAfter($issueTime)
-                ->expiresAt($expire)
-                ->with('uid', $row[0])
-                ->with('username', $row[1])
+            $token = (new Builder())
+                ->setIssuer($issuer)
+                ->setAudience($issuer)
+                ->setId($tokenID)
+                ->setIssuedAt($issueTime)
+                ->setNotBefore($issueTime)
+                ->setExpiration($expire)
+                ->set('uid', $row[0])
+                ->set('username', $row[1])
+                ->sign($signer, $JWTKey)
                 ->getToken();
-            echo "CREATED";
             echo "{status: \"OK\", jwt: \"".$token."\"}";
             exit;
         }
