@@ -39,8 +39,10 @@ if ($saltrec)
         {
             echo "ALLOW";
             $tokenID = base64_encode(mcrypt_create_iv(32));
+            echo "base64";
             $issueTime = time();
             $notBefore = $issueTime;
+            echo "time";
             $expire = $issueTime + $config['extime'];
             $issuer = $config['issuer'];
             // Create session and jwt token
