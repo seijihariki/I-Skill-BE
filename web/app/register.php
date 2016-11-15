@@ -1,11 +1,13 @@
 <?php
 require_once('../../vendor/autoload.php');
 
-$dbhost = 'ec2-54-221-253-87.compute-1.amazonaws.com';
-$dbport = '5432';
-$dbname = 'db2bq0vfsn68vn';
-$dbuser = 'odfehicdceyspg';
-$dbpass = 'GA70wAn9eSONOLUVk9Iihs04U5';
+$config = include('../../config.php');
+
+$dbhost = $config['dbhost'];
+$dbport = $config['dbport'];
+$dbname = $config['dbname'];
+$dbuser = $config['dbuser'];
+$dbpass = $config['dbpass'];
 
 function generateRandomString($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
