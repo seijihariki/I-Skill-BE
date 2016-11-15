@@ -30,7 +30,7 @@ $fullname = $_POST["name"];
 $username = $_POST["user"];
 $password = $_POST["pass"];
 
-// Username sanity checking
+// Input sanity checking
 
 $userqr  = "SELECT user, email FROM users WHERE username = '".$username."' OR email = '".$email."';";
 
