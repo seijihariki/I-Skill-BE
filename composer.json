@@ -6,7 +6,8 @@
     "symfony/twig-bridge": "^2",
     "firebase/php-jwt": "dev-master",
     "zendframework/zend-config": "~2.3",
-    "zendframework/zend-http": "~2.3"
+    "zendframework/zend-http": "~2.3",
+    "ext-mcrypt": "*"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"
