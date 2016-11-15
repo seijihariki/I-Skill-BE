@@ -9,7 +9,7 @@ $dbname = $config['dbname'];
 $dbuser = $config['dbuser'];
 $dbpass = $config['dbpass'];
 
-
+$jwtconfig = new Configuration();
 
 $dbconn = pg_connect("host=".$dbhost." port=".$dbport." dbname=".$dbname." user=".$dbuser." password=".$dbpass);
 
@@ -39,27 +39,21 @@ if ($saltrec)
         {
             $tokenID = base64_encode(mcrypt_create_iv(32));
             $issueTime = time();
-            $notBefore = $issueTime;
             $expire = $issueTime + $config['extime'];
             $issuer = $config['issuer'];
+
             // Create session and jwt token
-            $data = [
-                'iat' => $issueTime,
-                'jti' => $tokenID,
-                'iss' => $issuer,
-                'nbf' => $notBefore,
-                'exp' => $expire,
-                'data' => [
-                    'u_id' => $row[0],
-                    'username' => $row[1]
-                    ]
-                ];
             $JWTKey = base64_decode($config['jwtkey']);
-            $token = JWT::encode(
-                $data,
-                $JWTKey,
-                'HS512'
-            );
+            $token = $jwtconfig->createBuilder()
+                ->issuedBy($issuer)
+                ->canOnlyBeUsedBy($issuer)
+                ->identifiedBy($tokenID)
+                ->issuedAt($issueTime)
+                ->canOnlyBeUsedAfter($issueTime)
+                ->expiresAt($expire)
+                ->with('uid', $row[0])
+                ->with('username', $row[1])
+                ->getToken();
             echo "CREATED";
             echo "{status: \"OK\", jwt: \"".$token."\"}";
             exit;
