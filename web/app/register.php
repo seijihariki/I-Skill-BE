@@ -24,7 +24,7 @@ $dbconn = pg_connect($connstr);
 
 if ($dbconn == False)
 {
-    echo "{status: \"error\", detail: \"Failed to connect to DB.\"}";
+    echo "{\"status\": \"error\", \"detail\": \"Failed to connect to DB.\"}";
     exit;
 }
 
@@ -34,6 +34,31 @@ $username = $_POST["user"];
 $password = $_POST["pass"];
 
 // Input sanity checking
+if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+{
+    echo "{\"status\": \"invalid\", \"detail\": \"Invalid e-mail\"}";
+    exit;
+}
+
+if (!preg_match('/^[a-z\'\\-. ]+$/i', $fullname))
+{
+    echo "{\"status\": \"invalid\", \"detail\": \"Invalid name\"}";
+    exit;
+} else {
+    str_replace('\'', '\'\'', $fullname);
+}
+
+if (!preg_match('/^[^\\0\'"\\b\\n\\r\\t\\Z\\\\%_ ]{5,}$/i', $username))
+{
+    echo "{\"status\": \"invalid\", \"detail\": \"Invalid username\"}";
+    exit;
+}
+
+if (!preg_match('/^[^\\0\'"\\b\\n\\r\\t\\Z\\\\%_ ]{6,}$/i', $password))
+{
+    echo "{\"status\": \"invalid\", \"detail\": \"Invalid password\"}";
+    exit;
+}
 
 $userqr  = "SELECT user, email FROM users WHERE username = '".$username."' OR email = '".$email."';";
 
@@ -49,14 +74,14 @@ if ($userrec)
         $mail = $row[1];
         if ($user == $username)
         {
-            echo "{status: \"exists\", detail: \"Username already exists\"}";
+            echo "{\"status\": \"exists\", \"detail\": \"Username already exists\"}";
         } else {
-            echo "{status: \"exists\", detail: \"Email is already being used\"}";
+            echo "{\"status\": \"exists\", \"detail\": \"Email is already being used\"}";
         }
     }
     if ($rcnt > 1)
     {
-        echo "{status: \"error\", detail: \"More than one entry found\"}";
+        echo "{\"status\": \"error\", \"detail\": \"More than one entry found\"}";
     }
     if ($rcnt == 0)
     {
@@ -67,14 +92,15 @@ if ($userrec)
 
         if ($res == false)
         {
-            echo "{status: \"error\", detail: \"Failed to register user into DB.\"}";
+            echo "{\"status\": \"error\", \"detail\": \"Failed to register user into DB.\"}";
         } else {
-            echo "{status: \"success\"}";
+            echo "{\"status\": \"success\"}";
         }
     }
     exit;
 } else {
-    echo "{status: \"error\", detail: \"Query for user returned error.\"}";
+    echo "{\"status\": \"error\", \"detail\": \"Query for user returned error.\"}";
+    exit;
 }
 
 exit("This shouldn't have been reached...");

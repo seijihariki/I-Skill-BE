@@ -16,14 +16,25 @@ $dbconn = pg_connect("host=".$dbhost." port=".$dbport." dbname=".$dbname." user=
 
 if ($dbconn == False)
 {
-    echo "{status: \"error\", detail: \"Failed to connect to DB.\"}";
+    echo "{\"status\": \"error\", \"detail\": \"Failed to connect to DB.\"}";
     exit;
 }
 
 $username = $_POST["user"];
 $password = $_POST["pass"];
 
-// Username sanity checking
+// Input sanity checking
+if (!preg_match('/^[^\\0\'"\\b\\n\\r\\t\\Z\\\\%_ ]{5,}$/i', $username))
+{
+    echo "{\"status\": \"invalid\", \"detail\": \"Invalid username\"}";
+    exit;
+}
+
+if (!preg_match('/^[^\\0\'"\\b\\n\\r\\t\\Z\\\\%_ ]{6,}$/i', $password))
+{
+    echo "{\"status\": \"invalid\", \"detail\": \"Invalid password\"}";
+    exit;
+}
 
 $saltqr  = "SELECT id, username, pass, salt FROM users WHERE username = '".$username."' OR email = '".$username."';";
 $saltrec = pg_query($dbconn, $saltqr);
@@ -56,15 +67,18 @@ if ($saltrec)
                 ->set('username', $row[1])
                 ->sign($signer, $JWTKey)
                 ->getToken();
-            echo "{status: \"OK\", jwt: \"".$token."\"}";
-            exit;
+            echo "{\"status\": \"OK\", \"jwt\": \"".$token."\"}";
+        } else {
+            echo "{\"status\": \"wrong\", \"detail\": \"Wrong username or password\"}";
         }
+    } else if (pg_num_rows($saltrec) > 1){
+        echo "{\"status\": \"error\", \"detail\": \"More than one entry found\"}";
     } else {
-        echo "{status: \"error\", detail: \"More than one entry found\"}";
-        exit;
+        echo "{\"status\": \"wrong\", \"detail\": \"Wrong username or password\"}";
     }
+    exit;
 } else {
-    echo "{status: \"wrong\", detail: \"Wrong username or password\"}";
+    echo "{\"status\": \"wrong\", \"detail\": \"Wrong username or password\"}";
     exit;
 }
 

@@ -8,6 +8,6 @@ return array(
 
     'extime' => 2592000,
     'issuer' => 'iskill_s1',
-    'jwtkey' => 'Rm/YN41JhkkMFfRALJr86WgQW60tcI/wtZgI2cWEFQAzXhbr/kmoR4gkkroXEnC7e6vPHNjlvk+e29N1KPkldQ=='
+    'jwtkey' => 'Rm/YN41JhkkMFfRALJr86WgQW60tcI/wtZgI2cWEFQAzXhbr/kmoR4gkkroXEnC7e6vPHNjlvk+e29N1KPkldQ==' 
 );
 ?>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<head>
+    <title> Login! </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#form").submit(function(evn) {
+                evn.preventDefault();
+                var username = $("#user").val();
+                var password = $("#pass").val();
+                $.post("app/login.php", {user: username, pass: password},
+                    function (result){
+                        console.log(result);
+                        var res_json = jQuery.parseJSON(result);
+                        if (res_json.status === "OK") {
+                            alert ("ok");
+                            if (typeof(Storage) !== "undefined") {
+                                localStorage.setItem("jwt", res_json.jwt);
+                                $("#submit").disabled = true;
+                            }
+                        }
+                    });
+            });
+            if (typeof(Storage) !== "undefined") {
+                if (localStorage.jwt)
+                    $("#submit").disabled = true;
+            }
+        });
+    </script>
+</head>
+<body>
+    <form id="form" method="post" action="app/login.php">
+        USER: <input type="text" id="user" name="user"></input><br>
+        PASS: <input type="password" id="pass" name="pass"></input><br>
+        <input type="submit" id="submit" value="Submit"></input>
+    </form>
+</body>
